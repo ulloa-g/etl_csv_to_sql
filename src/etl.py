@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+from sqlalchemy import create_engine
 
 
 def extract(csv_path):
@@ -43,8 +44,14 @@ def load_to_csv(df_clean):
     economics.to_csv("../data/output/economics.csv", index=False)
 
 
+def load_to_sql(df_clean, db_path):
+    engine = create_engine(f"sqlite:///{db_path}")
+    df_clean.to_sql("bank", engine, index=False, if_exists="replace")
+
+
 if __name__ == "__main__":
     csv_path = "../data/input/bank_marketing.csv"
+    db_path = "../data/output/bank_marketing.db"
     df = extract(csv_path)
     df_clean = transform(df)
     load_to_csv(df_clean)
