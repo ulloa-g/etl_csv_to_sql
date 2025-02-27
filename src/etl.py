@@ -55,3 +55,4 @@ if __name__ == "__main__":
     df = extract(csv_path)
     df_clean = transform(df)
     load_to_csv(df_clean)
+    load_to_sql(df_clean, db_path)
