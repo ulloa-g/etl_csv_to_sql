@@ -29,7 +29,22 @@ def transform(df):
     return df
 
 
+def load_to_csv(df_clean):
+    client = df_clean[["client_id", "age", "job", "marital", "education", "credit_default", "mortgage"]]
+    campaign = df_clean[
+        [
+            "client_id", "number_contacts", "last_contact_date", "contact_duration",
+            "previous_campaign_contacts", "previous_outcome", "campaign_outcome"
+        ]
+    ]
+    economics = df_clean[["client_id", "cons_price_idx", "euribor_three_months"]]
+    client.to_csv("../data/output/client.csv", index=False)
+    campaign.to_csv("../data/output/campaign.csv", index=False)
+    economics.to_csv("../data/output/economics.csv", index=False)
+
+
 if __name__ == "__main__":
     csv_path = "../data/input/bank_marketing.csv"
     df = extract(csv_path)
     df_clean = transform(df)
+    load_to_csv(df_clean)
